@@ -1,0 +1,32 @@
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px 20px;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+.image_logo_container {
+  width: 111px;
+  background: var(--preto);
+  color: var(--cinza-claro);
+  padding: 10px;
+  border-radius: 8px;
+}
+.links-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.links {
+  text-transform: uppercase;
+  border-bottom: 1px solid #ffffff;
+}
+
+.links:hover {
+  transition: 0.3s;
+  border-bottom: 1px solid var(--preto);
+}
