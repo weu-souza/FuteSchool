@@ -30,11 +30,11 @@
             <form action="login/php/login.php" method="POST" class="formulario">
                 <label for="" class="label-formulario">
                     <span class="subititulo cinza-escuro-text">Email</span>
-                    <input type="email" name="email" class="subititulo cinza-escuro-text input-formulario">
+                    <input type="email" name="email" class="navegação cinza-escuro-text input-formulario">
                 </label>
                 <label for="" class="label-formulario">
                     <span class="subititulo cinza-escuro-text">senha</span>
-                    <input type="password" name="senha" class="subititulo cinza-escuro-text input-formulario">
+                    <input type="password" name="senha" class="navegação cinza-escuro-text input-formulario">
                 </label>
                 <div class="button-container">
                     <a href="/p/registro/" class="button-outline subititulo">REGISTRO</a>
