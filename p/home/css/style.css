@@ -1,0 +1,152 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* padding: 60px; */
+}
+
+/* hero */
+.hero-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.hero {
+  width: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("/global/imagens/hero.jpg");
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: grid;
+  grid-column: 140px auto 150px;
+  padding: 20px 0;
+  gap: 30px;
+}
+.hero-title {
+  text-align: center;
+}
+.hero-description {
+  max-width: 900px;
+  width: 100%;
+  text-align: justify;
+  justify-self: center;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.line1,
+.line2 {
+  border-bottom: 3px solid var(--cinza-claro);
+  flex: 1;
+}
+
+/* carrossel */
+.carrossel-section {
+  width: 100%;
+  background-color: var(--cinza-claro);
+  display: flex;
+  justify-content: center;
+}
+.carrossel-area {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  padding: 20px;
+}
+.title-carrossel-container {
+  border-bottom: 1px solid var(--cinza-escuro);
+  padding: 10px 0;
+}
+.carrossel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  padding: 20px 0;
+  background-color: white;
+  border: 1px solid var(--cinza-escuro);
+  box-shadow: var(shadow);
+}
+.carrossel-left,
+.carrossel-right {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.carrossel-left > i,
+.carrossel-right > i {
+  color: var(--cinza-escuro);
+  font-size: 50px;
+}
+
+.carrossel-images {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  scroll-behavior: auto;
+}
+
+.imagens {
+  min-width: 150px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.imagens > img {
+  width: 100px;
+}
+/* contato */
+.contato-section {
+  width: 100%;
+  background-color: var(--preto);
+  display: flex;
+  justify-content: center;
+}
+.contato-container {
+  display: flex;
+  width: 1200px;
+  flex-direction: column;
+  padding: 20px 50px;
+  gap: 30px;
+}
+.formulario-contato {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 20px;
+}
+.contato-title {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--cinza-claro);
+  padding: 10px 0;
+}
+textarea {
+  width: 100%;
+  height: 130px;
+  resize: none;
+  outline: none;
+  border-radius: 8px;
+}
+
+.button-form-contato {
+  background-color: var(--cinza-claro);
+  color: var(--preto);
+  border-radius: 10px;
+}

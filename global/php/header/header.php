@@ -7,16 +7,16 @@
     <nav>
         <ul class="links-container">
             <?php
-            if (!empty(isset($_SESSION['usuario']))) {
-                echo '<li><a class="links subititulo preto-text" href="/p/criar-partida/">CRIAR PARTIDA</a></a></li>';
-                echo '<li><a class="links subititulo preto-text" href="/p/partida/">Partidas</a></a></li>';
-                echo '<li><a class="links subititulo preto-text" href="/p/criar-time/">Times</a></a></li>';
-                echo '<li><a class="links subititulo preto-text" href="/p/historico/">Historico</a></a></li>';
+            if (!empty($_SESSION['usuario'])) {
+                echo '<li><a class="links navegação preto-text" href="/p/criar-partida/">CRIAR PARTIDA</a></a></li>';
+                echo '<li><a class="links navegação preto-text" href="/p/partida/">Partidas</a></a></li>';
+                echo '<li><a class="links navegação preto-text" href="/p/criar-time/">Times</a></a></li>';
+                echo '<li><a class="links navegação preto-text" href="/p/historico/">Historico</a></a></li>';
             }
             ?>
-            <?php echo !empty(isset($_SESSION['usuario'])) ?
-                '<li><a href="/login/php/logout.php"class="links subititulo preto-text">Sair</a></li>'
-                : '<li ><a class="links subititulo preto-text" href="/">Login</a></li>'; ?>
+            <?php echo !empty($_SESSION['usuario']) ?
+                '<li><a href="/login/php/logout.php"class="links navegação preto-text">Sair</a></li>'
+                : '<li ><a class="links navegação preto-text" href="/">Login</a></li>'; ?>
         </ul>
     </nav>
 </header>
