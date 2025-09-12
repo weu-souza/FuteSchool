@@ -124,10 +124,23 @@ table {
   border-spacing: 0;
 }
 input,
-select  ,
+select,
 option {
   outline: none;
 }
 a {
   text-decoration: none;
+}
+
+/* remover seta feia do input number*/
+/* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
