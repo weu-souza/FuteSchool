@@ -1,0 +1,109 @@
+main {
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+}
+.partida-card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  justify-content: center;
+}
+
+.card-time-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 800px;
+  border: 1px solid var(--cinza-claro);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  border-radius: 8px;
+}
+.card-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.card-top > button,
+.card-bottom > a {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.times-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid var(--cinza-claro);
+  box-shadow: var(--shadow);
+  max-width: 456px;
+  width: 100%;
+  align-items: center;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.card-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.pontuacao {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.img-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.time-card {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.img-card-container > img {
+  width: 45px;
+}
+
+.bolinha-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.bolinha-online {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  padding: 5px;
+  background: var(--ativo);
+  animation: pulse 1s infinite;
+}
+.bolinha-offline {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  padding: 5px;
+  background: var(--inativo);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
