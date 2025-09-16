@@ -12,9 +12,9 @@
         <section class="partida-card-container">
             <div class="card-time-container">
                 <div class="card-top">
-                    <button onclick="copiar('Corintians')" class="paragrafo cinza-escuro-text"><i class="fa-solid  fa-link"></i> Copiar</button>
+                    <button onclick="copiar('Corintians')" class="paragrafo cinza-escuro-text"> <i class="fa-solid fa-link"></i> Copiar</button>
                     <p class="paragrafo cinza-escuro-text">data</p>
-                    <p class="paragrafo cinza-escuro-text">casual</p>
+                    <p class="paragrafo cinza-escuro-text"> <i class="fa-solid fa-futbol"></i> casual</p>
                 </div>
                 <div class="times-container">
                     <div class="time-card">

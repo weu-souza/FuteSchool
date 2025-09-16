@@ -1,0 +1,192 @@
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  padding-top: 60px;
+  padding-bottom: 20px;
+}
+.top-container {
+  max-width: 1200px;
+  width: 100%;
+  background: var(--cinza-claro);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--cinza-escuro);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.title {
+  border-bottom: 1px solid var(--cinza-escuro);
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: center;
+}
+.container-pessoas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.jogador-card {
+  background-color: #fff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.jogador-title {
+  border-bottom: 1px solid var(--cinza-escuro);
+  padding-bottom: 10px;
+  box-shadow: var(--shadow);
+  margin-bottom: 30px;
+}
+.image-jogador-container {
+  display: flex;
+  align-items: center;
+}
+.jogador-meio {
+  display: flex;
+  justify-content: space-between;
+}
+.texto-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.jogadores-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  background: var(--cinza-claro);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--cinza-escuro);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.card-jogador {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  display: flex;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.tabela {
+  width: 100%;
+  text-align: center;
+}
+th {
+  padding: 8px;
+}
+td {
+  padding: 8px;
+}
+
+.cartoes {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+}
+.cartao-amarelo {
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: var(--amarelo);
+}
+
+.cartao-vermelho {
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: var(--inativo);
+}
+/* cartão de melhores */
+.image-best-player {
+  position: relative;
+}
+
+.image-best-player img {
+  width: 50px;
+  border-radius: 50%;
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+.imagem-best-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-best-player i {
+  position: absolute;
+  z-index: 1;
+  top: -32px;
+  left: -12.5px;
+  font-size: 60px;
+  color: var(--amarelo);
+  pointer-events: none;
+}
+
+/* gols */
+
+.gols-container {
+  max-width: 1200px;
+  width: 100%;
+  background: var(--cinza-claro);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--cinza-escuro);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.gols-container > .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.gol-card-container {
+  max-width: 1160px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 275px);
+  gap: 20px;
+}
+.gol-card {
+  background: #fff;
+  box-shadow: var(--shadow);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.gol-title {
+  border-bottom: 1px solid var(--cinza-escuro);
+  padding-bottom: 10px;
+}
+.gol-meio-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.tempo-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

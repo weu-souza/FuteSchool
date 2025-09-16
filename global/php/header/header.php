@@ -10,7 +10,6 @@
             if (!empty($_SESSION['usuario'])) {
                 echo '<li><a class="links navegacao preto-text" href="/p/criar-partida/">CRIAR PARTIDA</a></a></li>';
                 echo '<li><a class="links navegacao preto-text" href="/p/partida/">Partidas</a></a></li>';
-                echo '<li><a class="links navegacao preto-text" href="/p/criar-time/">Times</a></a></li>';
                 echo '<li><a class="links navegacao preto-text" href="/p/historico/">Historico</a></a></li>';
             }
             ?>
