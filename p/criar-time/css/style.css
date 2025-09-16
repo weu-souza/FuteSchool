@@ -1,0 +1,70 @@
+.criar-time-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.formulario-criar-time {
+  max-width: 900px;
+  min-width: 300px;
+  width: 100%;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--cinza-claro);
+  padding: 20px;
+  border-radius: 8px;
+  background: #fff;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+.btn-criar-time-container {
+  display: flex;
+  justify-content: end;
+}
+.btn-criar-time-container > button {
+  padding: 10px 150px;
+}
+
+/* image */
+
+.foto {
+  grid-area: foto;
+  margin: auto;
+}
+
+.img-label {
+  width: 400px;
+  @media (max-width: 600px) {
+    width: 300px;
+  }
+  aspect-ratio: 16/9;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  border: 2px dashed currentColor;
+  cursor: pointer;
+  transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+
+  #img {
+    width: 250px;
+    text-align: center;
+  }
+  .img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+.img-label:hover {
+  color: #999;
+  background: #ccc;
+}
+
+input[type="file"] {
+  display: none;
+}
