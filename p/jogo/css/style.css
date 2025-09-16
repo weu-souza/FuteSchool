@@ -1,0 +1,132 @@
+main {
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+}
+.timer-container {
+  max-width: 1200px;
+  width: 100%;
+  border: 1px solid var(--cinza-claro);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.top-container {
+  display: flex;
+  justify-content: space-between;
+}
+.casual-torneio {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.bottom-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.time-container > img {
+  width: 40px;
+}
+
+/* campo */
+.jogador-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.jogador-image-container:hover > img {
+  display: none;
+}
+.jogador-image-container:hover > .camisa-jogador {
+  display: block;
+}
+.camisa-jogador {
+  display: none;
+  font-size: 30px;
+  background: #00000085;
+  padding: 11.5px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+.jogador-image-container > img {
+  width: 50px;
+  border-radius: 50%;
+}
+.gramado-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-image: url("/global/imagens/campo-futebol.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  max-width: 1250px;
+  width: 100%;
+  height: 600px;
+}
+.time-primeiro {
+  display: grid;
+  grid-template-columns: 150px auto 150px;
+  align-items: center;
+  /* padding: 20px; */
+}
+.time-segundo {
+  display: grid;
+  grid-template-columns: 150px auto 90px;
+  align-items: center;
+}
+
+.goleiro {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.zagueiro {
+  display: flex;
+  flex-direction: column;
+  height: 550px;
+  justify-content: space-between;
+}
+.meio-campo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 390px;
+}
+/* buttons */
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  width: 100%;
+  padding-bottom: 20px;
+}
+.button-verde {
+  background-color: var(--ativo);
+  color: var(--preto);
+}
+.button-verde:hover {
+  background-color: var(--ativo);
+  color: var(--preto);
+}
+.button-vermelho {
+  background-color: var(--inativo);
+}
+.button-vermelho:hover {
+  background-color: var(--inativo);
+}
