@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $foto = null;
     }
 
-    var_dump($nomeTime, $qtdjogadores, $foto,$codigo_capitao, $codigo_partida);
     $resultado = CriarTime($nomeTime, $qtdjogadores, $foto['caminho'],$codigo_capitao, $codigo_partida);
 
     if ($resultado['sucesso']) {
@@ -24,6 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     } else {
         $erro = $resultado['erro'];
-        echo "<p style='color:red'>{$erro} <a href='/p/criar-partida/'>voltar</a></p>";
+        echo "<p style='color:red'>{$erro} <a href='/p/partida/'>voltar</a></p>";
     }
 }
