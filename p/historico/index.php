@@ -13,43 +13,58 @@
             <div class="titulo-container">
                 <h3 class="subititulo cinza-escuro-text">Casual</h3>
             </div>
-            <div class="card-partidas">
-                <div class="card-top">
-                    <p class="navegacao cinza-escuro-text">data</p>
-                    <button class="paragrafo cinza-escuro-text btn-inscricao btn-copiar" onclick="copiar(1)"><i class="fa-solid  fa-link"></i> link de Inscrição</button>
-                    <p class="navegacao cinza-escuro-text"><i class="fa-solid fa-futbol"></i> 14</p>
-                </div>
-                <a href="/p/time?id=1" class="card-time">
-                    <div class="image-container"><img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="avatar" width="50"></div>
-                    <table class="tabela">
-                        <thead>
-                            <tr>
-                                <th class="titulo-tabela preto-text">Nome</th>
-                                <th class="titulo-tabela preto-text">Gols</th>
-                                <th class="titulo-tabela preto-text">Defesa</th>
-                                <th class="titulo-tabela preto-text">Jogadores</th>
-                                <th class="titulo-tabela preto-text">Falta</th>
-                                <th class="titulo-tabela preto-text">Título</th>
-                                <th class="titulo-tabela preto-text">Cartões</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="paragrafo cinza-escuro-text">Bola na quadra</td>
-                                <td class="paragrafo cinza-escuro-text">9</td>
-                                <td class="paragrafo cinza-escuro-text">10</td>
-                                <td class="paragrafo cinza-escuro-text">5</td>
-                                <td class="paragrafo cinza-escuro-text">0</td>
-                                <td class="paragrafo cinza-escuro-text">Vencedor</td>
-                                <td class="cartoes">
-                                    <span class="cartao-amarelo paragrafo preto-text">0</span>
-                                    <span class="cartao-vermelho paragrafo cinza-claro-text">0</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </a>
-            </div>
+            <?php
+            require_once '../../model/historico/getHistorico.php';
+
+            $historico = getHistorico();
+
+            if ($historico) {
+                foreach ($historico as $partida) {
+                    echo '<div class="card-partidas">';
+                    echo '<div class="card-top">';
+                    echo '<p class="navegacao cinza-escuro-text">' . $partida['data_partida'] . '</p>';
+                    echo '<p class="navegacao cinza-escuro-text"><i class="fa-solid fa-futbol"></i> ' . count($partida['times']) . '</p>';
+                    echo '</div>';
+
+                    // loop pelos times dessa partida
+                    foreach ($partida['times'] as $time) {
+                        echo '<div class="card-time">';
+                        echo '<button class="paragrafo cinza-escuro-text btn-inscricao btn-copiar" onclick="copiar(' . $time['codigo_time'] . ')"><i class="fa-solid fa-link"></i> link de Inscrição</button>';
+                        echo '<a href="/p/time?id=' . $time['codigo_time'] . '" class="card-time-content">';
+                        echo '<div class="image-container"><img src="' . $time['foto'] . '" alt="avatar" width="50"></div>';
+                        echo '<table class="tabela">';
+                        echo '<thead>';
+                        echo '<tr>
+                    <th class="titulo-tabela preto-text">Nome</th>
+                    <th class="titulo-tabela preto-text">Gols</th>
+                    <th class="titulo-tabela preto-text">Defesa</th>
+                    <th class="titulo-tabela preto-text">Jogadores</th>
+                    <th class="titulo-tabela preto-text">Falta</th>
+                    <th class="titulo-tabela preto-text">Cartões</th>
+                  </tr>';
+                        echo '</thead>';
+                        echo '<tbody>';
+                        echo '<tr>
+                    <td class="paragrafo cinza-escuro-text">' . $time['nome'] . '</td>
+                    <td class="paragrafo cinza-escuro-text">' . $time['gols'] . '</td>
+                    <td class="paragrafo cinza-escuro-text">' . $time['defesas'] . '</td>
+                    <td class="paragrafo cinza-escuro-text">' . $time['quantidade_jogadores'] . '</td>
+                    <td class="paragrafo cinza-escuro-text">' . $time['faltas'] . '</td>
+                    <td class="cartoes">
+                        <span class="cartao-amarelo paragrafo preto-text">' . $time['cartoes_amarelos'] . '</span>
+                        <span class="cartao-vermelho paragrafo cinza-claro-text">' . $time['cartoes_vermelhos'] . '</span>
+                    </td>
+                  </tr>';
+                        echo '</tbody>';
+                        echo '</table>';
+                        echo '</a>';
+                        echo '</div>'; // fecha card-time
+                    }
+
+                    echo '</div>'; // fecha card-partidas
+                }
+            }
+            ?>
         </section>
     </main>
 
@@ -57,7 +72,7 @@
 <script>
     function copiar(name) {
         const root = window.location.origin;
-        const url = `${root}/p/criar-time?partida=${encodeURIComponent(name)}`;
+        const url = `${root}/p/inscrever-time?partida=${encodeURIComponent(name)}`;
 
         navigator.clipboard.writeText(url)
             .then(() => {
