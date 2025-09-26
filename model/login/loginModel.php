@@ -9,7 +9,7 @@
     {
         global $conn;
 
-        $stmt = $conn->prepare("SELECT email, senha, tipo_usuario, nome FROM usuario WHERE email = :email LIMIT 1");
+        $stmt = $conn->prepare("SELECT codigo_usuario, email, senha, nome FROM usuario WHERE email = :email LIMIT 1");
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
 
@@ -25,9 +25,8 @@
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-
-        $_SESSION['tipo_usuario'] = $user['tipo_usuario'];
         $_SESSION['nome'] = $user['nome'];
+        $_SESSION['codigo_usuario'] = $user['codigo_usuario'];
 
         return true;
     }

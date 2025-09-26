@@ -7,30 +7,32 @@
 </head>
 
 <body>
+
+    
     <?php include '../../global/php/header/header.php'; ?>
     <main class="criar-partida-container">
-        <form action="" method="POST" class="formulario-criar-partida">
+        <form action="./php/criar-partida.php" method="POST" class="formulario-criar-partida">
             <label for="" class="label-formulario">
                 <span class="navegacao cinza-escuro-text">Nome da competição</span>
                 <input type="text" placeholder="digite o nome para a competição" name="nomeCompeticao" class="paragrafo cinza-escuro-text input-formulario">
             </label>
             <label for="" class="label-formulario">
                 <span class="navegacao cinza-escuro-text">Data inicio</span>
-                <input type="text" placeholder="data de incio da competição" name="dataInicio" class="paragrafo cinza-escuro-text input-formulario">
+                <input type="date" placeholder="data de incio da competição" name="dataInicio" class="paragrafo cinza-escuro-text input-formulario">
             </label>
             <label for="" class="label-formulario">
                 <span class="navegacao cinza-escuro-text">Data fim</span>
-                <input type="text" placeholder="data fim, caso seja partida casual digite a mesma data do incio" name="dataFim" class="paragrafo cinza-escuro-text input-formulario">
+                <input type="date" placeholder="data fim, caso seja partida casual digite a mesma data do incio" name="dataFim" class="paragrafo cinza-escuro-text input-formulario">
             </label>
             <!-- tipo partida casual torneio -->
             <legend class="navegacao cinza-escuro-text">Selecione o tipo de partida: casual para confronto entre 2 times e torneio para mais times</legend>
             <div class="tipo-partida">
                     <label for="casual" class="label-radio">
-                        <input type="radio" name="tipo_partida" id="casual" class=" cinza-escuro-text input-radio">
+                        <input type="radio" name="tipo_partida" id="casual" value="C" class=" cinza-escuro-text input-radio">
                         <span class="navegacao cinza-escuro-text">casual</span>
                     </label>
                     <label for="torneio" class="label-radio">
-                        <input type="radio" name="tipo_partida" id="torneio" class=" cinza-escuro-text input-radio">
+                        <input type="radio" name="tipo_partida" id="torneio" value="T" class=" cinza-escuro-text input-radio">
                         <span class="navegacao cinza-escuro-text">torneio</span>
                     </label>
 
@@ -49,9 +51,7 @@
                 <button type="submit" class="button-full navegacao ">Criar</button>
             </div>
         </form>
-
     </main>
-
 </body>
 <script>
     const $casual = $("#casual");
