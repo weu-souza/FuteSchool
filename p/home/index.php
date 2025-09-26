@@ -11,7 +11,7 @@
      <main class="home-container">
           <section class="hero-container">
                <div class="hero">
-                    <h3 class="hero-title titulo cinza-claro-text">Bem-vindo <?= $_SESSION['usuario'] ?? "ao Futeschool"; ?>!</h3>
+                    <h3 class="hero-title titulo cinza-claro-text">Bem-vindo <?= $_SESSION['nome'] ?? "ao Futeschool"; ?>!</h3>
                     <div class="hero-description">
                          <p class=" paragrafo cinza-claro-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac orci et ipsum pharetra cursus non nec urna. Nullam pulvinar, enim at laoreet consequat, lectus lorem bibendum nisi, ut vehicula lectus ex a nulla. Donec tincidunt lorem ut libero fermentum, ac vestibulum erat sagittis. Suspendisse potenti. In non mauris neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
 
