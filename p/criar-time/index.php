@@ -15,10 +15,6 @@
                 <span class="navegacao cinza-escuro-text">Nome do time</span>
                 <input type="text" placeholder="digite o nome para seu time" name="nomeTime" class="paragrafo cinza-escuro-text input-formulario">
             </label>
-            <label for="" class="label-formulario">
-                <span class="navegacao cinza-escuro-text">Quantidade de jogadores</span>
-                <input type="number" placeholder="digite a quantidade de jogadores" name="qtdjogadores" class="paragrafo cinza-escuro-text input-formulario">
-            </label>
             <!-- imagem -->
             <div class="foto">
                 <label for="formFile" id="span_imagem" class="form-label img-label">
