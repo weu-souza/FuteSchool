@@ -9,8 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $codigo_partida = $_POST['codigo_partida'] ?? null;
     $codigo_time = $_POST['codigo_time'] ?? null;
     $codigo_usuario = $_SESSION['codigo_usuario'] ?? null;
-
-    echo $codigo_usuario, $nmrCamisa, $posicaoTime, $funcaoTime, $codigo_time, $codigo_partida;
+    
     $resultado = InscreverJogador($codigo_usuario, $nmrCamisa, $posicaoTime, $funcaoTime, $codigo_time, $codigo_partida);
 
     if ($resultado['sucesso']) {
