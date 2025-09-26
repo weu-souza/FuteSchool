@@ -13,7 +13,7 @@
             <div class="icon-container">
                 <img src="/global/imagens/Logo_login.svg" alt="foto de icone futeschool">
             </div>
-            <form action="">
+            <form action="./php/registro.php" method="POST">
                 <label for="" class="label-formulario">
                     <span class="subititulo cinza-escuro-text">Email</span>
                     <input type="email" name="email" class="subititulo cinza-escuro-text input-formulario">
