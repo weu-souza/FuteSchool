@@ -4,6 +4,7 @@
 <head>
     <title>jogo</title>
     <?php include '../../global/php/head.php'; ?>
+    <link rel="stylesheet" href="css/controle-jogo.css">
 </head>
 
 <body>
@@ -35,81 +36,172 @@
             <!-- time 1 -->
             <div class="time-primeiro">
                 <div class="goleiro">
-                    <?php
-                    echo '<div class="jogador-container">
-                    <div class="jogador-image-container">
-                        <button class=" camisa-jogador subititulo cinza-claro-text ">10</button>
-                        <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    <?php $id = 1;
+                    $nome = "Rafael"; ?>
+                    <div class="card-hide-<?php echo $id; ?>">
+                        <?php include './card-jogador/card-jogador.php'; ?>
                     </div>
-                    <p class="navegacao cinza-claro-text">Nome</p>
-                </div>'
+
+                    <?php
+                    echo '<div  class="jogador-container">
+                     <div class="jogador-image-container">
+                     <button onClick="abrirCard(' . $id . ')" class="camisa-jogador subititulo cinza-claro-text">10</button>
+                     <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    </div>
+                    <p class="navegacao cinza-claro-text">' . $nome . '</p>
+                    </div>';
                     ?>
                 </div>
                 <div class="zagueiro">
-                    <?php
-                    for ($i = 0; $i < 2; $i++) {
-                        echo '<div class="jogador-container">
-                    <div class="jogador-image-container">
-                        <button class=" camisa-jogador subititulo cinza-claro-text ">10</button>
-                        <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    <?php $id = 2;
+                    $nome = "Jose"; ?>
+                    <div class="card-hide-<?php echo $id; ?>">
+                        <?php include './card-jogador/card-jogador.php'; ?>
                     </div>
-                    <p class="navegacao cinza-claro-text">Nome</p>
-                </div>';
-                    }
+
+                    <?php
+                    echo '<div  class="jogador-container">
+                     <div class="jogador-image-container">
+                     <button onClick="abrirCard(' . $id . ')" class="camisa-jogador subititulo cinza-claro-text">10</button>
+                     <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    </div>
+                    <p class="navegacao cinza-claro-text">' . $nome . '</p>
+                    </div>';
+                    ?>
+                    <?php $id = 3;
+                    $nome = "Jose"; ?>
+                    <div class="card-hide-<?php echo $id; ?>">
+                        <?php include './card-jogador/card-jogador.php'; ?>
+                    </div>
+
+                    <?php
+                    echo '<div  class="jogador-container">
+                     <div class="jogador-image-container">
+                     <button onClick="abrirCard(' . $id . ')" class="camisa-jogador subititulo cinza-claro-text">10</button>
+                     <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    </div>
+                    <p class="navegacao cinza-claro-text">' . $nome . '</p>
+                    </div>';
                     ?>
 
                 </div>
                 <div class="meio-campo">
-                    <?php
-                    for ($i = 0; $i < 2; $i++) {
-                        echo '<div class="jogador-container">
-                    <div class="jogador-image-container">
-                        <button class=" camisa-jogador subititulo cinza-claro-text ">10</button>
-                        <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    <?php $id = 4;
+                    $nome = "Gabriel"; ?>
+                    <div class="card-hide-<?php echo $id; ?>">
+                        <?php include './card-jogador/card-jogador.php'; ?>
                     </div>
-                    <p class="navegacao cinza-claro-text">Nome</p>
-                </div>';
-                    }
+
+                    <?php
+                    echo '<div  class="jogador-container">
+                     <div class="jogador-image-container">
+                     <button onClick="abrirCard(' . $id . ')" class="camisa-jogador subititulo cinza-claro-text">10</button>
+                     <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    </div>
+                    <p class="navegacao cinza-claro-text">' . $nome . '</p>
+                    </div>';
+                    ?>
+
+                    <?php $id = 5;
+                    $nome = "Amilton"; ?>
+                    <div class="card-hide-<?php echo $id; ?>">
+                        <?php include './card-jogador/card-jogador.php'; ?>
+                    </div>
+
+                    <?php
+                    echo '<div  class="jogador-container">
+                     <div class="jogador-image-container">
+                     <button onClick="abrirCard(' . $id . ')" class="camisa-jogador subititulo cinza-claro-text">10</button>
+                     <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    </div>
+                    <p class="navegacao cinza-claro-text">' . $nome . '</p>
+                    </div>';
                     ?>
                 </div>
             </div>
             <!-- time 2 -->
             <div class="time-segundo">
                 <div class="meio-campo">
-                    <?php
-                    for ($i = 0; $i < 2; $i++) {
-                        echo '<div class="jogador-container">
-                    <div class="jogador-image-container">
-                        <button class=" camisa-jogador subititulo cinza-claro-text ">10</button>
-                        <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    <?php $id = 6;
+                    $nome = "Robson"; ?>
+                    <div class="card-hide-<?php echo $id; ?>">
+                        <?php include './card-jogador/card-jogador.php'; ?>
                     </div>
-                    <p class="navegacao cinza-claro-text">Nome</p>
-                </div>';
-                    }
+
+                    <?php
+                    echo '<div  class="jogador-container">
+                     <div class="jogador-image-container">
+                     <button onClick="abrirCard(' . $id . ')" class="camisa-jogador subititulo cinza-claro-text">10</button>
+                     <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    </div>
+                    <p class="navegacao cinza-claro-text">' . $nome . '</p>
+                    </div>';
+                    ?>
+
+                    <?php $id = 7;
+                    $nome = "Jose"; ?>
+                    <div class="card-hide-<?php echo $id; ?>">
+                        <?php include './card-jogador/card-jogador.php'; ?>
+                    </div>
+
+                    <?php
+                    echo '<div  class="jogador-container">
+                     <div class="jogador-image-container">
+                     <button onClick="abrirCard(' . $id . ')" class="camisa-jogador subititulo cinza-claro-text">10</button>
+                     <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    </div>
+                    <p class="navegacao cinza-claro-text">' . $nome . '</p>
+                    </div>';
                     ?>
                 </div>
                 <div class="zagueiro">
-                    <?php
-                    for ($i = 0; $i < 2; $i++) {
-                        echo '<div class="jogador-container">
-                    <div class="jogador-image-container">
-                        <button class=" camisa-jogador subititulo cinza-claro-text ">10</button>
-                        <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    <?php $id = 8;
+                    $nome = "Lindomar"; ?>
+                    <div class="card-hide-<?php echo $id; ?>">
+                        <?php include './card-jogador/card-jogador.php'; ?>
                     </div>
-                    <p class="navegacao cinza-claro-text">Nome</p>
-                </div>';
-                    }
+
+                    <?php
+                    echo '<div class="jogador-container">
+                     <div class="jogador-image-container">
+                     <button  onClick="abrirCard(' . $id . ')" class="camisa-jogador subititulo cinza-claro-text">10</button>
+                     <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    </div>
+                    <p class="navegacao cinza-claro-text">' . $nome . '</p>
+                    </div>';
+                    ?>
+
+                    <?php $id = 9;
+                    $nome = "Amilton"; ?>
+                    <div class="card-hide-<?php echo $id; ?>">
+                        <?php include './card-jogador/card-jogador.php'; ?>
+                    </div>
+
+                    <?php
+                    echo '<div  class="jogador-container">
+                     <div class="jogador-image-container">
+                     <button onClick="abrirCard(' . $id . ')" class="camisa-jogador subititulo cinza-claro-text">10</button>
+                     <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    </div>
+                    <p class="navegacao cinza-claro-text">' . $nome . '</p>
+                    </div>';
                     ?>
                 </div>
                 <div class="goleiro">
-                    <?php
-                    echo '<div class="jogador-container">
-                    <div class="jogador-image-container">
-                        <button class=" camisa-jogador subititulo cinza-claro-text ">10</button>
-                        <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    <?php $id = 10;
+                    $nome = "Silas"; ?>
+                    <div class="card-hide-<?php echo $id; ?>">
+                        <?php include './card-jogador/card-jogador.php'; ?>
                     </div>
-                    <p class="navegacao cinza-claro-text">Nome</p>
-                </div>';
+
+                    <?php
+                    echo '<div  class="jogador-container">
+                     <div class="jogador-image-container">
+                     <button onClick="abrirCard(' . $id . ')" class="camisa-jogador subititulo cinza-claro-text">10</button>
+                     <img src="/global/imagens/time_placeholder/placeholder_user.jpg" alt="">
+                    </div>
+                    <p class="navegacao cinza-claro-text">' . $nome . '</p>
+                    </div>';
                     ?>
                 </div>
             </div>
@@ -148,6 +240,35 @@
 
         let intervalo = setInterval(atualizarTimer, 1000);
     });
+
+    function abrirCard(id) {
+        const $card = $(`.card-hide-${id}, .card-show-${id}`);
+
+        // Fecha todos os outros cards (qualquer um que esteja aberto)
+        $("[class*='card-show-']").each(function() {
+            const oldId = $(this).attr("class").match(/card-show-(\d+)/)[1];
+            $(this).removeClass(`card-show-${oldId}`).addClass(`card-hide-${oldId}`);
+        });
+
+        // Agora abre só o clicado
+        if ($card.hasClass(`card-hide-${id}`)) {
+            $card.removeClass(`card-hide-${id}`).addClass(`card-show-${id}`);
+        } else {
+            // Se já tiver aberto, fecha
+            $card.removeClass(`card-show-${id}`).addClass(`card-hide-${id}`);
+        }
+
+        // Fecha se clicar fora
+        $(document).off("click.fecharCard").on("click.fecharCard", function(e) {
+            if (
+                !$card.is(e.target) &&
+                $card.has(e.target).length === 0 &&
+                !$(e.target).closest(`[onclick="abrirCard(${id})"]`).length
+            ) {
+                $card.removeClass(`card-show-${id}`).addClass(`card-hide-${id}`);
+            }
+        });
+    }
 </script>
 
 </html>
