@@ -20,7 +20,7 @@
         }
         require_once '../../model/time/GetTimeByArbitroId.php';
         $times = getTimeByUsuarioId($_SESSION['codigo_usuario']);
-        foreach ($times as $time)
+        foreach ($times as $time){
             echo '<div class="time-card-container">
             <div onClick="irParaTime(' . $time['codigo_time'] . ')" class="time-card">
                 <div  class="time-info">
@@ -39,6 +39,7 @@
                 </div>
             </div>
         </div>';
+        }
         ?>
     </main>
 

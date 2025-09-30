@@ -46,25 +46,37 @@ main {
   flex-direction: column;
   align-items: center;
 }
+/* logica hover */
 .jogador-image-container:hover > img {
   display: none;
 }
+
 .jogador-image-container:hover > .camisa-jogador {
-  display: block;
+  display: flex; /* melhor que block pra centralizar número */
+  align-items: center;
+  justify-content: center;
 }
+
 .camisa-jogador {
   display: none;
+  width: 50px;  /* mesmo tamanho da imagem */
+  height: 50px; /* mesmo tamanho da imagem */
   font-size: 30px;
   background: #00000085;
-  padding: 11.5px;
   border-radius: 50%;
   cursor: pointer;
   border: none;
+  text-align: center;
+  line-height: 50px; /* centraliza vertical o número */
 }
+
 .jogador-image-container > img {
   width: 50px;
+  height: 50px; /* garante círculo perfeito */
   border-radius: 50%;
+  object-fit: cover; /* não distorce a imagem */
 }
+/*  */
 .gramado-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -112,7 +124,7 @@ main {
 .button-container {
   display: flex;
   justify-content: space-between;
-  max-width: 1200px;
+  max-width: 1300px;
   width: 100%;
   padding-bottom: 20px;
 }
