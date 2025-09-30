@@ -9,9 +9,10 @@ function getTimeByArbitroId($codigo_arbitro): array
 {
     global $conn;
 
-    $stmt = $conn->prepare("SELECT * FROM vw_times WHERE codigo_arbitro = :codigo_arbitro or codigo_capitao = :codigo_capitao");
+    $stmt = $conn->prepare("SELECT * FROM vw_times WHERE codigo_arbitro = :codigo_arbitro or codigo_capitao = :codigo_capitao or codigo_jogador = :codigo_jogador");
     $stmt->bindValue(':codigo_arbitro', $codigo_arbitro, PDO::PARAM_INT);
     $stmt->bindValue(':codigo_capitao', $codigo_arbitro, PDO::PARAM_INT);
+    $stmt->bindValue(':codigo_jogador', $codigo_arbitro, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
