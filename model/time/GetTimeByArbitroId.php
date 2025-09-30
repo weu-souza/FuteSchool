@@ -5,15 +5,20 @@
     }
     require_once $path;
 
-function getTimeByArbitroId($codigo_arbitro): array
+function getTimeByUsuarioId($codigo_usuario): array
 {
     global $conn;
 
-    $stmt = $conn->prepare("SELECT * FROM vw_times WHERE codigo_arbitro = :codigo_arbitro or codigo_capitao = :codigo_capitao or codigo_jogador = :codigo_jogador");
-    $stmt->bindValue(':codigo_arbitro', $codigo_arbitro, PDO::PARAM_INT);
-    $stmt->bindValue(':codigo_capitao', $codigo_arbitro, PDO::PARAM_INT);
-    $stmt->bindValue(':codigo_jogador', $codigo_arbitro, PDO::PARAM_INT);
+    $stmt = $conn->prepare("
+        SELECT *
+        FROM vw_times
+        WHERE :codigo_usuario = ANY(usuarios_relacionados)
+    ");
+    $stmt->bindValue(':codigo_usuario', $codigo_usuario, PDO::PARAM_INT);
     $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $times = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $times ?: [];
 }
 ?>

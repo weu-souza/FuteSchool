@@ -15,7 +15,11 @@
             if ($_SESSION['codigo_usuario']) {
                 $partidas =   getPartidas($_SESSION['codigo_usuario']);
             }
-            if ($partidas) {
+           if($partidas == null){
+                    echo '<h3 class="subititulo cinza-escuro-text">Nenhuma partida encontrada</h3>';
+                
+                }
+                else{
                 foreach ($partidas as $partida) {
 
             ?>
@@ -54,8 +58,8 @@
                         </div>
                     </div>
 
-            <?php }
-            } ?>
+            <?php }}
+             ?>
         </section>
 
     </main>

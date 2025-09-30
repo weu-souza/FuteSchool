@@ -14,23 +14,28 @@
         </div>
         <?php
         require_once '../../model/time/GetTimeByArbitroId.php';
-        if(!isset($_SESSION['nome'])) {
+        if (!isset($_SESSION['nome'])) {
             header('Location: /');
             exit();
         }
         require_once '../../model/time/GetTimeByArbitroId.php';
-        $times = getTimeByArbitroId($_SESSION['codigo_usuario']);
+        $times = getTimeByUsuarioId($_SESSION['codigo_usuario']);
         foreach ($times as $time)
-        echo '<div class="time-card-container">
+            echo '<div class="time-card-container">
             <div onClick="irParaTime(' . $time['codigo_time'] . ')" class="time-card">
                 <div  class="time-info">
                     <img src="' . $time['foto_time'] . '" alt="Foto do time">
-                <h4 class="navegacao cinza-escuro-text">'. $time['nome_time'] . '</h4>
+                <h4 class="navegacao cinza-escuro-text">' . $time['nome_time'] . '</h4>
                 </div>
-                <div class="btn-container">
-                   <button class="paragrafo cinza-escuro-text btn-inscricao btn-copiar" 
-                    onclick="event.stopPropagation(); copiar(' . $time['codigo_time'] . ',' . $time['codigo_partida'] . ')">
-                    <i class="fa-solid fa-link"></i> link de Inscrição</button> 
+                <div class="btn-container">';
+        if ($_SESSION['codigo_usuario'] == $time['codigo_arbitro'] || $_SESSION['codigo_usuario'] == $time['codigo_capitao']) {
+            echo '<button class="paragrafo cinza-escuro-text btn-inscricao btn-copiar" 
+                onclick="event.stopPropagation(); copiar(' . $time['codigo_time'] . ',' . $time['codigo_partida'] . ')">
+                <i class="fa-solid fa-link"></i> link de Inscrição
+          </button>';
+        }
+
+        echo '
                 </div>
             </div>
         </div>';
@@ -52,7 +57,7 @@
             });
     }
 
-   const irParaTime = (id) => {
+    const irParaTime = (id) => {
         window.location.href = `/p/time?id=${id}`;
     }
 </script>
