@@ -29,7 +29,6 @@
                     // loop pelos times dessa partida
                     foreach ($partida['times'] as $time) {
                         echo '<div class="card-time">';
-                        echo '<button class="paragrafo cinza-escuro-text btn-inscricao btn-copiar" onclick="copiar(' . $time['codigo_time'] . ','.$partida['codigo_partida'].')"><i class="fa-solid fa-link"></i> link de Inscrição</button>';
                         echo '<a href="/p/time?id=' . $time['codigo_time'] . '" class="card-time-content">';
                         echo '<div class="image-container"><img src="' . $time['foto'] . '" alt="avatar" width="50"></div>';
                         echo '<table class="tabela">';
@@ -69,19 +68,6 @@
     </main>
 
 </body>
-<script>
-    function copiar(time, partida) {
-        const root = window.location.origin;
-        const url = `${root}/p/inscrever-time?partida=${encodeURIComponent(partida)}&time=${encodeURIComponent(time)}`;
 
-        navigator.clipboard.writeText(url)
-            .then(() => {
-                alert('Link copiado pra área de transferência!');
-            })
-            .catch(() => {
-                alert('Falha ao copiar o link');
-            });
-    }
-</script>
 
 </html>

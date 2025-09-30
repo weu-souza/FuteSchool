@@ -34,12 +34,7 @@ main {
   border-bottom: 1px solid var(--cinza-escuro);
   padding: 10px;
 }
-.btn-inscricao {
-  border: none;
-  background: none;
-  cursor: pointer;
-  text-transform: uppercase;
-}
+
 
 .card-time {
   background-color: #fff;

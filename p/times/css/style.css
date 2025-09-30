@@ -1,0 +1,51 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-top: 60px;
+  justify-content: center;
+  align-items: center;
+}
+.top {
+  max-width: 1200px;
+  width: 100%;
+  border-bottom: 1px solid var(--cinza-escuro);
+  width: 100%;
+  display: flex;
+  padding: 20px;
+}
+.time-card-container {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 20px;
+  max-width: 1200px;
+  width: 100%;
+}
+.time-card {
+  display: flex;
+  box-shadow: var(--shadow);
+  border-radius: 8px;
+  border: 1px solid var(--cinza-claro);
+  justify-content: space-between;
+  padding: 20px;
+  align-items: center;
+  cursor: pointer;
+}
+.time-info {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+.time-info img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid var(--cinza-claro);
+  object-fit: cover;
+}
+.btn-inscricao {
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-transform: uppercase;
+}

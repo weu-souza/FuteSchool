@@ -9,9 +9,16 @@
 <body>
     <?php include '../../global/php/header/header.php'; ?>
     <main>
-        <section class="top-container">
+        <?php
+        require_once '../../model/time/getByTimeId.php';
+        $codigo_Time = $_GET['id'] ?? 0;
+        $card = getCardTimeById($codigo_Time);
+        $jogador = getJogadorTimeById($codigo_Time);
+        $gols =  getGolsTimeById($codigo_Time);
+
+        echo ' <section class="top-container">
             <div class="title">
-                <h3 class="subititulo cinza-escuro-text">Nome Time</h3>
+                <h3 class="subititulo cinza-escuro-text">' . $card['nome_time'] . '</h3>
             </div>
             <div class="container-pessoas">
                 <!-- aqui vem o get de arbitro -->
@@ -21,11 +28,11 @@
                     </div>
                     <div class="jogador-meio">
                         <div class="image-jogador-container">
-                            <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="avatar" width="50">
+                            <img src="' . $card['foto_arbitro'] . '" alt="avatar" width="50">
                         </div>
                         <div class="texto-container">
-                            <p class="paragrafo cinza-escuro-text">Nome</p>
-                            <p class="paragrafo cinza-escuro-text">Posição</p>
+                            <p class="paragrafo cinza-escuro-text">' . $card['nome_arbitro'] . '</p>
+                            <p class="paragrafo cinza-escuro-text">Arbitro</p>
                         </div>
                     </div>
                 </div>
@@ -36,11 +43,11 @@
                     </div>
                     <div class="jogador-meio">
                         <div class="image-jogador-container">
-                            <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="avatar" width="50">
+                            <img src="' . $card['foto_capitao'] . '" alt="avatar" width="50">
                         </div>
                         <div class="texto-container">
-                            <p class="paragrafo cinza-escuro-text">Nome</p>
-                            <p class="paragrafo cinza-escuro-text">Posição</p>
+                            <p class="paragrafo cinza-escuro-text">' . $card['nome_capitao'] . '</p>
+                            <p class="paragrafo cinza-escuro-text">Capitão</p>
                         </div>
                     </div>
                 </div>
@@ -58,12 +65,12 @@
                         <div class="imagem-best-container">
                             <div class="image-best-player">
                                 <i class="fa-solid fa-crown"></i>
-                                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="avatar" width="50">
+                                <img src="' . $card['foto_artilheiro'] . '" alt="avatar" width="50">
                             </div>
                         </div>
                         <div class="texto-container">
-                            <p class="paragrafo cinza-escuro-text">Nome</p>
-                            <p class="paragrafo cinza-escuro-text">Posição</p>
+                            <p class="paragrafo cinza-escuro-text">' . $card['artilheiro'] . '</p>
+                            <p class="paragrafo cinza-escuro-text">' . $card['posicao_artilheiro'] . '</p>
                         </div>
                     </div>
                 </div>
@@ -76,19 +83,22 @@
                         <div class="imagem-best-container">
                             <div class="image-best-player">
                                 <i class="fa-solid fa-crown"></i>
-                                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="avatar" width="50">
+                                <img src="' . $card['foto_goleiro'] . '" alt="avatar" width="50">
                             </div>
                         </div>
                         <div class="texto-container">
-                            <p class="paragrafo cinza-escuro-text">Nome</p>
-                            <p class="paragrafo cinza-escuro-text">Posição</p>
+                            <p class="paragrafo cinza-escuro-text">' . $card['goleiro_menos_vazado'] . '</p>
+                            <p class="paragrafo cinza-escuro-text">' . $card['posicao_goleiro'] . '</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- aqui vem o get de jogadores no time -->
+            </div>';
+
+        // <!-- aqui vem o get de jogadores no time -->
+        foreach ($jogador as $jog) {
+            echo '
             <div class="card-jogador">
-                <div class="image-container"><img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="avatar" width="50"></div>
+                <div class="image-container"><img src="' . $jog['foto_user'] . '" alt="avatar" width="50"></div>
                 <table class="tabela">
                     <thead>
                         <tr>
@@ -103,43 +113,59 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="paragrafo cinza-escuro-text">Rafael henrrique</td>
-                            <td class="paragrafo cinza-escuro-text">9</td>
-                            <td class="paragrafo cinza-escuro-text">10</td>
-                            <td class="paragrafo cinza-escuro-text">5</td>
-                            <td class="paragrafo cinza-escuro-text">0</td>
-                            <td class="paragrafo cinza-escuro-text">Atacante</td>
+                            <td class="paragrafo cinza-escuro-text">' . $jog['nome_jogador'] . '</td>
+                            <td class="paragrafo cinza-escuro-text">' . $jog['qtd_gols'] . '</td>
+                            <td class="paragrafo cinza-escuro-text">' . $jog['qtd_defesas'] . '</td>
+                            <td class="paragrafo cinza-escuro-text">' . $jog['numero_camisa'] . '</td>
+                            <td class="paragrafo cinza-escuro-text">' . $jog['qtd_faltas'] . '</td>
+                            <td class="paragrafo cinza-escuro-text">' . $jog['posicao_jogador'] . '</td>
                             <td class="cartoes">
-                                <span class="cartao-amarelo paragrafo preto-text">0</span>
-                                <span class="cartao-vermelho paragrafo cinza-claro-text">0</span>
+                                <span class="cartao-amarelo paragrafo preto-text">' . $jog['qtd_cartao_amarelo'] . '</span>
+                                <span class="cartao-vermelho paragrafo cinza-claro-text">' . $jog['qtd_cartao_vermelho'] . '</span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </section>
+            </div>';
+        }
+        echo ' </section>'
+        ?>
         <!-- aqui vem o get de gols nessa partida -->
         <section class="gols-container">
             <div class="title">
                 <h3 class="subititulo cinza-escuro-text"> Gols</h3>
-                <p class="subititulo cinza-escuro-text">9</p>
+                <p class="subititulo cinza-escuro-text"><?php 
+                echo isset($gols[0]['total_gols_time']) && $gols[0]['total_gols_time'] > 0 
+    ? $gols[0]['total_gols_time'] 
+    : 'Nenhum gol marcado';
+                ?></p>
             </div>
             <div class="gol-card-container">
                 <!-- fazer o get de gols aqui -->
-                <div class="gol-card">
-                    <div class="gol-title">
-                        <p class="navegacao cinza-escuro-text">Gols</p>
-                    </div>
-                    <div class="gol-meio-container">
-                        <div>
-                            <p class="subititulo cinza-escuro-text">01</p>
-                        </div>
-                        <div class="tempo-container">
-                            <p class="paragrafo cinza-escuro-text">primeiro tempo</p>
-                            <p class="paragrafo cinza-escuro-text">05:00</p>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                foreach ($gols as $gol) {
+                    echo '
+        <div class="gol-card">
+            <div class="gol-title">
+            <p class="navegacao cinza-escuro-text">Gols</p>
+        </div>
+        <div class="gol-meio-container">
+            <div>
+                <p class="subititulo cinza-escuro-text">01</p>
+            </div>
+            <div class="tempo-container">
+                <p class="paragrafo cinza-escuro-text">'
+                        . ($gol['tempo_ocorrencia'] == "P"
+                            ? "Primeiro"
+                            : ($gol['tempo_ocorrencia'] == "S" ? "Segundo" : ""))
+                        . '</p>
+                <p class="paragrafo cinza-escuro-text">' . $gol['minuto_ocorrencia'] . ':00</p>
+            </div>
+        </div>
+        </div>';
+                }
+                ?>
+
             </div>
 
         </section>
