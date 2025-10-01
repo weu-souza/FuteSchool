@@ -3,7 +3,6 @@
          <div class="imagem-container">
              <div class="image-div"><img src="<?php echo $jogador['foto_user'] ?>" alt="imagem jogador"></div>
              <p class="paragrafo"><?php echo $jogador['nome_jogador'] ?></p>
-             <p class="paragrafo"><?php echo $jogador['codigo_jogador'] ?></p>
          </div>
          <div class="card-select">
              <select class="input-formulario paragrafo">

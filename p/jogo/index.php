@@ -207,13 +207,13 @@
 
                                 $id = $jogador['codigo_jogador'];
 
-                                echo '<div class="card-hide-' . $jogador['codigo_jogador']. '">';
+                                echo '<div class="card-hide-' . $jogador['codigo_jogador'] . '">';
                                 include './card-jogador/card-jogador.php';
                                 echo '</div>';
 
                                 echo '<div class="jogador-container">
                      <div class="jogador-image-container">
-                         <button onClick="abrirCard(' . $jogador['codigo_jogador']. ')" class="camisa-jogador subititulo cinza-claro-text">'
+                         <button onClick="abrirCard(' . $jogador['codigo_jogador'] . ')" class="camisa-jogador subititulo cinza-claro-text">'
                                     . $jogador['numero_camisa'] . '</button>
                          <img src="' . $jogador['foto_user'] . '" alt="">
                      </div>
@@ -227,55 +227,75 @@
             </div>
         </section>
         <section class="button-container">
-            <button class="button-full navegacao">Iniciar rodada</button>
-            <button class="button-full navegacao">Terminar rodada</button>
-            <button class="button-full button-verde navegacao"> próxima rodada</button>
-            <button class="button-full button-vermelho navegacao">finalizar jogo</button>
+            <button class="button-full navegacao" onclick="iniciarRodada(<?php echo $idPartida ?>)">Iniciar rodada</button>
+            <button class="button-full navegacao" onclick="terminarRodada(<?php echo $idPartida ?>)">Terminar rodada</button>
+            <button class="button-full button-verde navegacao" onclick="proximaRodada(<?php echo $idPartida ?>)"> próxima rodada</button>
+            <button class="button-full button-vermelho navegacao" onclick="finalizarJogo(<?php echo $idPartida ?>)">finalizar jogo</button>
         </section>
     </main>
 </body>
+<!-- logica do timer -->
+<script>
+    function buscarDadosPartida(idPartida) {
+        return $.ajax({
+            url: 'http://localhost:8081/model/jogo/getTempoPartida.php?id=<?php echo $_GET['id']; ?>',
+            method: 'GET',
+            data: {
+                codigo_partida: idPartida
+            },
+            dataType: 'json'
+        });
+    }
+    let horaInicio = null; // valor padrao no passado para evitar erro no js
+    let duracao = '';
+    buscarDadosPartida().then(data => {
+        horaInicio = data.time_stamp_inicio ?
+            new Date(data.time_stamp_inicio) :
+            new Date('2025-09-30 19:26:00');
+        duracao = data.tempo_partida ? parseInt(data.tempo_partida) : 0;
+    }).catch(error => {
+        console.error('Erro ao buscar dados da partida:', error);
+    })
 
-<?php
-$horaInicio = '2025-09-30 19:26:00';
-$tempoPartida = isset($tempo['tempo_partida']) ? $tempo['tempo_partida'] : 0;
-echo '<script>
-let horaInicio = ' . ($horaInicio ? 'new Date("' . $horaInicio . '")' : 'null') . ';
-let duracao = ' . $tempoPartida . ';
 
-function atualizarTimer() {
-    let agora = new Date();
-    let fim = new Date(horaInicio.getTime() + duracao * 60000);
-    let diff = Math.floor((fim - agora) / 1000);
+    function atualizarTimer() {
+        let agora = new Date();
+        if (!horaInicio || !duracao) {
+            $("#timer").text("00:00");
+            return;
+        }
+        let fim = new Date(horaInicio.getTime() + duracao * 60000);
+        let diff = Math.floor((fim - agora) / 1000);
 
-    if (diff <= 0) {
-        $("#timer").text("00:00");
-        localStorage.setItem("tempoRestante", "00:00"); // salva zero quando acabar
-        clearInterval(intervalo);
-        return;
+        if (diff <= 0) {
+            $("#timer").text("00:00");
+            localStorage.setItem("tempoRestante", "00:00"); // salva zero quando acabar
+            clearInterval(intervalo);
+            return;
+        }
+
+        let minutos = Math.floor(diff / 60);
+        let segundos = diff % 60;
+
+        let tempoFormatado =
+            (minutos < 10 ? "0" : "") + minutos + ":" +
+            (segundos < 10 ? "0" : "") + segundos;
+
+        $("#timer").text(tempoFormatado);
+
+        // Salva no localStorage a cada segundo
+        localStorage.setItem("tempoRestante", tempoFormatado);
     }
 
-    let minutos = Math.floor(diff / 60);
-    let segundos = diff % 60;
+    // Se houver valor salvo, retoma do localStorage
+    let tempoSalvo = localStorage.getItem("tempoRestante");
+    if (tempoSalvo) {
+        $("#timer").text(tempoSalvo);
+    }
 
-    let tempoFormatado = 
-        (minutos < 10 ? "0" : "") + minutos + ":" +
-        (segundos < 10 ? "0" : "") + segundos;
-
-    $("#timer").text(tempoFormatado);
-
-    // Salva no localStorage a cada segundo
-    localStorage.setItem("tempoRestante", tempoFormatado);
-}
-
-// Se houver valor salvo, retoma do localStorage
-let tempoSalvo = localStorage.getItem("tempoRestante");
-if (tempoSalvo) {
-    $("#timer").text(tempoSalvo);
-}
-
-let intervalo = setInterval(atualizarTimer, 1000);
-</script>';
-?>
+    let intervalo = setInterval(atualizarTimer, 1000);
+</script>
+<!-- logica dos gols -->
 <script>
     function fetchGols() {
         fetch('http://localhost:8081/model/jogo/getGols.php?id=<?php echo $_GET['id']; ?>')
@@ -301,13 +321,13 @@ let intervalo = setInterval(atualizarTimer, 1000);
             });
     }
 
-    // Atualiza de 5 em 5 segundos
-    setInterval(fetchGols, 5000);
+    // Atualiza a cada segundo
+    setInterval(fetchGols, 1000);
 
     // Chama logo ao carregar
     fetchGols();
 </script>
-
+<!-- logica de abrir card -->
 <script>
     function abrirCard(id) {
         const $card = $(`.card-hide-${id}, .card-show-${id}`);
@@ -336,6 +356,136 @@ let intervalo = setInterval(atualizarTimer, 1000);
                 $card.removeClass(`card-show-${id}`).addClass(`card-hide-${id}`);
             }
         });
+    }
+</script>
+
+<!-- botoes de controle do jogo-->
+<script>
+    function iniciarRodada(idPartida) {
+        fetch('http://localhost:8081/model/jogo/put/AlterarTimestamp.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    codigo_partida: idPartida
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erro HTTP: " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Resposta do servidor:', data);
+                if (data.success) {
+                    horaInicio = data.time_stamp_inicio; 
+                    console.log('Timestamp definido:', horaInicio);
+                } else {
+                    throw new Error(data.error || 'Erro desconhecido');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+                alert(`Erro: ${error.message}`);
+            });
+    }
+
+    function terminarRodada(idPartida) {
+        fetch('http://localhost:8081/model/jogo/put/FinalizaRodada.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    codigo_partida: idPartida
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erro HTTP: " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Resposta do servidor:', data);
+                if (data.success) {
+                    alert('Rodada iniciada com sucesso!');
+                    horaInicio = data.time_stamp_inicio;
+                    console.log('Timestamp definido:', horaInicio);
+                } else {
+                    throw new Error(data.error || 'Erro desconhecido');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+                alert(`Erro: ${error.message}`);
+            });
+    }
+
+    function proximaRodada(idPartida) {
+        fetch('http://localhost:8081/model/jogo/put/ProximaRodada.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    codigo_partida: idPartida
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erro HTTP: " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Resposta do servidor:', data);
+                if (data.success) {
+                    alert('Rodada iniciada com sucesso!');
+                    horaInicio = data.time_stamp_inicio; 
+                    console.log('Timestamp definido:', horaInicio);
+                } else {
+                    throw new Error(data.error || 'Erro desconhecido');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+                alert(`Erro: ${error.message}`);
+            });
+    }
+
+    function finalizarJogo(idPartida) {
+        fetch('http://localhost:8081/model/jogo/put/FinalizarPartida.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    codigo_partida: idPartida
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erro HTTP: " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Resposta do servidor:', data);
+                if (data.success) {
+                    alert('Jogo finalizado com sucesso!');
+                    horaInicio = data.time_stamp_inicio; 
+                    console.log('Timestamp definido:', horaInicio);
+                } else {
+                    throw new Error(data.error || 'Erro desconhecido');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+                alert(`Erro: ${error.message}`);
+            });
     }
 </script>
 
