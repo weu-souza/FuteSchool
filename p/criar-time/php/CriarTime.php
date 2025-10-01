@@ -4,7 +4,6 @@ require './SalvarImage.php';
 session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nomeTime = $_POST['nomeTime'] ?? '';
-    $qtdjogadores = $_POST['qtdjogadores'] ?? '';
     $nomeArquivo = $_POST['nomeArquivo'] ?? null;
     $base64Image = $_POST['fotoBase64'] ?? '';
     $codigo_capitao = $_SESSION['codigo_usuario'] ?? null;
@@ -15,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $foto = null;
     }
-
-    $resultado = CriarTime($nomeTime, $qtdjogadores, $foto['caminho'],$codigo_capitao, $codigo_partida);
+var_dump($nomeTime, $foto['caminho'],$codigo_capitao, $codigo_partida);
+   $resultado = CriarTime($nomeTime, $foto['caminho'],$codigo_capitao, $codigo_partida);
 
     if ($resultado['sucesso']) {
         header('Location: /p/partida/');
