@@ -5,8 +5,8 @@
             <p class="paragrafo"><?php echo $jogador['nome_jogador'] ?></p>
         </div>
         <div class="card-select">
-            <select class="input-formulario paragrafo">
-                <option value="default">escolha um jogador</option>
+            <select class="input-formulario paragrafo" onchange="alterarJogador(<?php echo $jogador['codigo_jogador']; ?>, this)">
+                <option value="-1">escolha um jogador</option>
                 <?php
                 $url = 'http://localhost:8081/model/jogo/jogadores/getJogadores.php?code_time=' . urlencode($jogador['codigo_time']) . '&posicao_time=' . urlencode($jogador['posicao_jogador']);
 
@@ -17,7 +17,7 @@
                     $data = json_decode($response, true);
                 }
                 if (empty($data)) {
-                    echo "<option value='sem-jogador'>Nenhum jogador reserva para essa posição</option>";
+                    echo "<option value='-1'>Nenhum jogador reserva para essa posição</option>";
                 } else {
 
                     foreach ($data as $jogadorInfo) {
@@ -50,6 +50,24 @@
         <button class="button-full" onclick="marcarDefesa(<?php echo $jogador['codigo_jogador']; ?>)">marcar defesa</button>
     </div>
 </section>
+<script>
+    function alterarJogador(codigo_jogador, event) {
+        const e = event.value;
+        if (e === "-1") {
+            return;
+        }
+        fetch(`http://localhost:8081/model/jogo/jogadores/alterarJogador.php`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                titular_id: codigo_jogador,
+                reserva_id: e,
+            })
+        }).catch(error => console.error('Error:', error));
+    }
+</script>
 <script>
     function marcarGol(idJogador) {
         let timer = localStorage.getItem('tempoRestante');
