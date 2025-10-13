@@ -5,17 +5,16 @@
     }
     require_once $path;
 
-    function CriarTime($nomeTime, $qtdjogadores, $foto, $codigo_capitao, $codigo_partida): array
+    function CriarTime($nomeTime, $foto, $codigo_capitao, $codigo_partida): array
 {
     global $conn;
 
     $nomeTime = trim($nomeTime);
-    $qtdjogadores = trim($qtdjogadores);
     $foto = is_array($foto) ? ($foto['name'] ?? null) : ($foto ? trim($foto) : null);
     $codigo_capitao = trim($codigo_capitao);
     $codigo_partida = trim($codigo_partida);
 
-    if ($nomeTime === '' || $qtdjogadores === '' || $codigo_capitao === '') {
+    if ($nomeTime === '' || $codigo_capitao === '') {
         return ['sucesso' => false, 'erro' => 'Todos os campos obrigatórios exceto a foto.'];
     }
 

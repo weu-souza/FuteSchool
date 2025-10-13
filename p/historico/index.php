@@ -62,6 +62,8 @@
 
                     echo '</div>'; // fecha card-partidas
                 }
+            }else{
+            echo '<h3 class="subititulo cinza-escuro-text">Nenhuma partida encontrada</h3>';
             }
             ?>
         </section>

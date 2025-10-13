@@ -7,7 +7,9 @@
 </head>
 
 <body>
-    <?php include '../../global/php/header/header.php'; ?>
+    <?php include '../../global/php/header/header.php'; 
+    
+    ?>
     <main class="criar-time-container">
         <form class="formulario-criar-time" method="post" action="./php/CriarTime.php" enctype="multipart/form-data">
 
