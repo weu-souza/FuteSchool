@@ -1,0 +1,46 @@
+SELECT
+	tc.codigo_time AS Codigo_Time_Casa,
+	tc.nome AS Nome_Time_Casa,
+	uc.nome AS Nome_Capitao_Casa,
+	tv.codigo_time AS Codigo_Time_Visitante,
+	tv.nome AS Nome_Time_Visitante,
+	uv.nome AS Nome_Capitao_Visitante,
+	(
+		SELECT
+			COUNT(tipo_marcacao)
+		FROM estatistica e, jogador j
+		WHERE e.codigo_partida = p.codigo_partida
+		AND e.codigo_jogador = j.codigo_jogador
+		AND j.codigo_time = tc.codigo_time
+		AND e.tipo_marcacao = 'G'
+	) AS Gols_Casa,
+	(
+		SELECT
+			COUNT(tipo_marcacao)
+		FROM estatistica e, jogador j
+		WHERE e.codigo_partida = p.codigo_partida
+		AND e.codigo_jogador = j.codigo_jogador
+		AND j.codigo_time = tv.codigo_time
+		AND e.tipo_marcacao = 'G'
+	) AS Gols_Visitante,
+	(
+		SELECT
+			COUNT(tipo_marcacao)
+		FROM
+			estatistica e
+		WHERE
+			e.codigo_partida = p.codigo_partida
+			AND e.tipo_marcacao = 'G'
+	) AS Total_Gols
+FROM
+	partida p
+	-- Dados para buscar os dados do casa
+INNER JOIN time tc ON
+	p.codigo_time_casa = tc.codigo_time
+INNER JOIN usuario uc ON
+	tc.codigo_capitao = uc.codigo_usuario
+	-- JOIN para buscar os dados do visitante
+INNER JOIN time tv ON
+	p.codigo_time_visitante = tv.codigo_time
+INNER JOIN usuario uv ON
+	tv.codigo_capitao = uv.codigo_usuario;

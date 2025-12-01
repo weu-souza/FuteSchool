@@ -1,0 +1,39 @@
+INSERT INTO usuario (nome, email, senha, foto) VALUES
+('André Gomes', 'andre@arbitro.com', 'senha123', 'https://cdn-icons-png.flaticon.com/512/847/847969.png'),  -- árbitro
+('Pedro Costa', 'pedro@time1.com', 'senha123', 'https://cdn-icons-png.flaticon.com/512/847/847969.png'),    -- capitão time 1
+('Lucas Lima', 'lucas@time2.com', 'senha123', 'https://cdn-icons-png.flaticon.com/512/847/847969.png'),     -- capitão time 2
+('João Pereira', 'joao@time1.com', 'senha123', 'https://cdn-icons-png.flaticon.com/512/847/847969.png'),    -- jogador time 1
+('Marcos Dias', 'marcos@time1.com', 'senha123', 'https://cdn-icons-png.flaticon.com/512/847/847969.png'),   -- jogador time 1
+('Rafael Nunes', 'rafael@time2.com', 'senha123', 'https://cdn-icons-png.flaticon.com/512/847/847969.png'),  -- jogador time 2
+('Bruno Rocha', 'bruno@time2.com', 'senha123', 'https://cdn-icons-png.flaticon.com/512/847/847969.png');    -- jogador time 2
+
+-- INSERINDO TIMES (com código do capitão)
+INSERT INTO time (codigo_capitao, nome, foto) VALUES
+(2, 'Time Águias', 'aguia.jpg'),
+(3, 'Time Leões', 'leao.jpg');
+
+-- INSERINDO JOGADORES (T = titular, R = reserva)
+INSERT INTO jogador (codigo_usuario, codigo_time, numero_camisa, posicao_time, tipo_participacao) VALUES
+(4, 1, 10, 'Atacante', 'T'), -- titular time 1
+(5, 1, 9, 'Meio-campo', 'T'), -- titular time 1
+(2, 1, 11, 'Defensor', 'R'), -- capitão reserva time 1
+(6, 2, 10, 'Atacante', 'T'), -- titular time 2
+(7, 2, 9, 'Meio-campo', 'T'), -- titular time 2
+(3, 2, 11, 'Defensor', 'R'); -- capitão reserva time 2
+
+-- INSERINDO COMPETIÇÃO
+INSERT INTO competicao (nome_competicao, data_inicio, data_fim, tipo_competicao) VALUES
+('Copa Casual', '2025-09-10', '2025-09-20', 'C'),
+('Torneio Nacional', '2025-10-01', '2025-10-15', 'T');
+
+-- INSERINDO PARTIDA (com árbitro)
+INSERT INTO partida (codigo_competicao, codigo_arbitro, codigo_time_casa, codigo_time_visitante, codigo_time_vencedor, data_partida, tempo_partida, partida_finalizada) VALUES
+(1, 1, 1, 2, NULL, '2025-09-12', '90:00', FALSE);
+
+-- INSERINDO ESTATÍSTICAS DA PARTIDA
+INSERT INTO estatistica (codigo_partida, codigo_jogador, minuto_ocorrencia, tipo_marcacao, tipo_infracao) VALUES
+(1, 4, 15, 'G', NULL), -- gol do titular time 1
+(1, 5, 30, 'D', NULL), -- defesa do titular time 1
+(1, 6, 45, 'G', NULL), -- gol do titular time 2
+(1, 2, 60, 'D', 'F'),  -- falta do titular time 2
+(1, 2, 70, NULL, 'A'); -- cartão amarelo do reserva (capitão) time 1

@@ -1,0 +1,418 @@
+CREATE TABLE IF NOT EXISTS usuario (
+	codigo_usuario SERIAL PRIMARY KEY,
+	nome VARCHAR(100) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	senha VARCHAR(100) NOT NULL,
+	foto VARCHAR(255)
+	)
+);
+
+CREATE TABLE IF NOT EXISTS time (
+	codigo_time SERIAL PRIMARY KEY,
+	codigo_capitao INTEGER,
+	nome VARCHAR(50) NOT NULL,
+	foto VARCHAR(255),
+	FOREIGN KEY (codigo_capitao) REFERENCES usuario(codigo_usuario)
+);
+
+CREATE TABLE IF NOT EXISTS jogador (
+	codigo_jogador SERIAL PRIMARY KEY,
+	codigo_usuario INTEGER NOT NULL,
+	codigo_time INTEGER NOT NULL,
+	numero_camisa INTEGER,
+	posicao_time VARCHAR(50),
+	tipo_participacao VARCHAR(1) CHECK(
+		tipo_participacao IN (
+			'T', 'R'
+		)
+	),
+    FOREIGN KEY (codigo_usuario) REFERENCES usuario(codigo_usuario),
+	FOREIGN KEY (codigo_time) REFERENCES time(codigo_time)
+);
+
+CREATE TABLE IF NOT EXISTS competicao (
+	codigo_competicao SERIAL PRIMARY KEY,
+	nome_competicao VARCHAR(50) NOT NULL,
+	data_inicio DATE NOT NULL,
+	data_fim DATE NOT NULL,
+	tipo_competicao VARCHAR(1) CHECK (
+		tipo_competicao IN (
+			'C', 'T'
+		)
+	)
+);
+
+CREATE TABLE IF NOT EXISTS partida (
+	codigo_partida SERIAL PRIMARY KEY,
+	codigo_competicao INTEGER NOT NULL,
+	codigo_arbitro INTEGER NOT NULL,
+	codigo_time_casa INTEGER ,
+	codigo_time_visitante INTEGER ,
+	codigo_time_vencedor INTEGER,
+	tempo_atual VARCHAR(1) 
+    	DEFAULT 'P'
+    	CHECK (tempo_atual IN ('P', 'S')),
+	 time_stamp_inicio timestamp without time zone,
+	data_partida DATE NOT NULL,
+	tempo_partida VARCHAR(10) NOT NULL,
+	partida_finalizada BOOLEAN NOT NULL DEFAULT FALSE,
+	FOREIGN KEY (codigo_arbitro) REFERENCES usuario(codigo_usuario),
+	FOREIGN KEY (codigo_competicao) REFERENCES competicao(codigo_competicao),
+	FOREIGN KEY (codigo_time_casa) REFERENCES time(codigo_time),
+	FOREIGN KEY (codigo_time_visitante) REFERENCES time(codigo_time)
+);
+
+CREATE TABLE IF NOT EXISTS estatistica (
+	codigo_estatistica SERIAL PRIMARY KEY,
+	codigo_partida INTEGER NOT NULL,
+	codigo_jogador INTEGER NOT NULL,
+	minuto_ocorrencia TYPE VARCHAR(5),
+	tempo_ocorrencia VARCHAR(1) 
+    	CHECK (tempo_ocorrencia IN ('P', 'S')),
+	tipo_marcacao VARCHAR(1) CHECK (
+		tipo_marcacao IN (
+			'G', 'D'
+		)
+	),
+ 	tipo_infracao VARCHAR(1) CHECK (
+		tipo_infracao IN (
+			'F', 'A', 'V'
+		)
+	),
+ 	FOREIGN KEY (codigo_partida) REFERENCES partida(codigo_partida),
+	FOREIGN KEY (codigo_jogador) REFERENCES jogador(codigo_jogador)
+);
+
+--views
+
+DROP VIEW IF EXISTS partidas_view;
+
+CREATE VIEW partidas_view AS
+SELECT 
+    p.codigo_partida,
+    p.codigo_arbitro,
+	p.tempo_atual, 
+    c.tipo_competicao,
+    tc.nome AS nome_time_casa,
+    tc.foto AS foto_time_casa,
+    tv.nome AS nome_time_visitante,
+    tv.foto AS foto_time_visitante,
+    p.data_partida,
+    p.partida_finalizada,
+    COALESCE(SUM(CASE 
+        WHEN e.tipo_marcacao = 'G' AND j.codigo_time = p.codigo_time_casa THEN 1
+        ELSE 0
+    END), 0) AS gols_casa,
+    COALESCE(SUM(CASE 
+        WHEN e.tipo_marcacao = 'G' AND j.codigo_time = p.codigo_time_visitante THEN 1
+        ELSE 0
+    END), 0) AS gols_visitante
+FROM partida p
+LEFT JOIN competicao c ON p.codigo_competicao = c.codigo_competicao
+LEFT JOIN time tc ON p.codigo_time_casa = tc.codigo_time
+LEFT JOIN time tv ON p.codigo_time_visitante = tv.codigo_time
+LEFT JOIN estatistica e ON e.codigo_partida = p.codigo_partida
+LEFT JOIN jogador j ON e.codigo_jogador = j.codigo_jogador
+GROUP BY 
+    p.codigo_partida, 
+    p.codigo_arbitro, 
+    c.tipo_competicao,
+    tc.nome, 
+    tc.foto, 
+    tv.nome, 
+    tv.foto, 
+    p.data_partida,
+    p.partida_finalizada;
+
+
+DROP VIEW IF EXISTS vw_historico;
+CREATE OR REPLACE VIEW vw_historico AS
+SELECT 
+    p.codigo_partida,
+    p.data_partida,
+    t.codigo_time,
+    t.foto,
+    t.nome, -- o PHP espera "nome", não "nome_time"
+    COUNT(DISTINCT j.codigo_jogador) AS quantidade_jogadores,
+    COALESCE(SUM(CASE WHEN e.tipo_marcacao = 'G' THEN 1 ELSE 0 END), 0) AS gols,
+    COALESCE(SUM(CASE WHEN e.tipo_marcacao = 'D' THEN 1 ELSE 0 END), 0) AS defesas,
+    COALESCE(SUM(CASE WHEN e.tipo_infracao = 'F' THEN 1 ELSE 0 END), 0) AS faltas,
+    COALESCE(SUM(CASE WHEN e.tipo_infracao = 'A' THEN 1 ELSE 0 END), 0) AS cartoes_amarelos,
+    COALESCE(SUM(CASE WHEN e.tipo_infracao = 'V' THEN 1 ELSE 0 END), 0) AS cartoes_vermelhos,
+    CASE 
+        WHEN p.codigo_time_vencedor = t.codigo_time THEN 'Vencedor'
+        WHEN p.codigo_time_vencedor IS NOT NULL 
+             AND p.codigo_time_vencedor <> t.codigo_time THEN 'Perdedor'
+        ELSE 'Em andamento'
+    END AS resultado
+FROM partida p
+JOIN estatistica e ON e.codigo_partida = p.codigo_partida
+JOIN jogador j ON j.codigo_jogador = e.codigo_jogador
+JOIN time t ON t.codigo_time = j.codigo_time
+WHERE p.partida_finalizada = TRUE
+GROUP BY p.codigo_partida, p.data_partida, t.codigo_time, t.foto, t.nome, p.codigo_time_vencedor;
+
+
+DROP VIEW IF EXISTS vw_times;
+
+CREATE OR REPLACE VIEW vw_times AS
+SELECT 
+    t.codigo_time,
+    t.nome AS nome_time,
+    t.foto AS foto_time,
+    p.codigo_partida,
+    p.codigo_arbitro,
+    t.codigo_capitao,
+    COALESCE(
+        json_agg(DISTINCT j.codigo_usuario) 
+        FILTER (WHERE j.codigo_usuario IS NOT NULL),
+        '[]'
+    ) AS jogadores,
+    ARRAY[
+        t.codigo_capitao,
+        p.codigo_arbitro
+    ] || 
+    COALESCE(array_agg(j.codigo_usuario) FILTER (WHERE j.codigo_usuario IS NOT NULL), '{}')
+    AS usuarios_relacionados
+FROM time t
+LEFT JOIN partida p 
+    ON (p.codigo_time_casa = t.codigo_time OR p.codigo_time_visitante = t.codigo_time)
+LEFT JOIN jogador j 
+    ON j.codigo_time = t.codigo_time
+GROUP BY t.codigo_time, t.nome, t.foto, p.codigo_partida, p.codigo_arbitro, t.codigo_capitao;
+
+
+
+DROP VIEW IF EXISTS vw_time_card;
+
+CREATE OR REPLACE VIEW vw_time_card AS
+SELECT 
+    t.codigo_time,
+    t.nome AS nome_time,
+    p.codigo_arbitro,
+    ua.nome AS nome_arbitro,
+    ua.foto AS foto_arbitro,
+    t.codigo_capitao,
+    uc.nome AS nome_capitao,
+    uc.foto AS foto_capitao,
+
+    -- Artilheiro: jogador do time com mais gols
+    art.nome AS artilheiro,
+    art.posicao_time AS posicao_artilheiro,
+    art.foto AS foto_artilheiro,
+
+    -- Goleiro menos vazado: jogador do time com mais defesas
+    gol.nome AS goleiro_menos_vazado,
+    gol.posicao_time AS posicao_goleiro,
+    gol.foto AS foto_goleiro
+
+FROM time t
+LEFT JOIN partida p 
+    ON (p.codigo_time_casa = t.codigo_time OR p.codigo_time_visitante = t.codigo_time)
+LEFT JOIN usuario ua 
+    ON ua.codigo_usuario = p.codigo_arbitro
+LEFT JOIN usuario uc 
+    ON uc.codigo_usuario = t.codigo_capitao
+
+-- Subquery para artilheiro
+LEFT JOIN LATERAL (
+    SELECT u.nome, j.posicao_time, u.foto
+    FROM jogador j
+    JOIN usuario u ON j.codigo_usuario = u.codigo_usuario
+    JOIN estatistica e ON e.codigo_jogador = j.codigo_jogador
+    JOIN partida pe ON pe.codigo_partida = e.codigo_partida
+    WHERE (pe.codigo_time_casa = t.codigo_time OR pe.codigo_time_visitante = t.codigo_time)
+      AND e.tipo_marcacao = 'G'
+    GROUP BY j.codigo_jogador, u.nome, u.foto, j.posicao_time
+    ORDER BY COUNT(e.codigo_estatistica) DESC
+    LIMIT 1
+) art ON TRUE
+
+-- Subquery para goleiro menos vazado
+LEFT JOIN LATERAL (
+    SELECT u.nome, j.posicao_time, u.foto
+    FROM jogador j
+    JOIN usuario u ON j.codigo_usuario = u.codigo_usuario
+    JOIN estatistica e ON e.codigo_jogador = j.codigo_jogador
+    JOIN partida pe ON pe.codigo_partida = e.codigo_partida
+    WHERE (pe.codigo_time_casa = t.codigo_time OR pe.codigo_time_visitante = t.codigo_time)
+      AND e.tipo_marcacao = 'D'
+      AND j.posicao_time ILIKE '%goleiro%'
+    GROUP BY j.codigo_jogador, u.nome, u.foto, j.posicao_time
+    ORDER BY COUNT(e.codigo_estatistica) DESC
+    LIMIT 1
+) gol ON TRUE
+
+GROUP BY t.codigo_time, p.codigo_arbitro, ua.nome, ua.foto, t.codigo_capitao, uc.nome, uc.foto, art.nome, art.posicao_time, art.foto, gol.nome, gol.posicao_time, gol.foto;
+
+
+DROP VIEW IF EXISTS vw_time_jogadores;
+
+CREATE OR REPLACE VIEW vw_time_jogadores AS
+SELECT 
+    t.codigo_time,
+    j.codigo_jogador,
+	j.tipo_participacao,
+    u.nome AS nome_jogador,
+    u.foto AS foto_user,  
+    j.numero_camisa,
+    j.posicao_time AS posicao_jogador,
+    
+    -- Código da partida vindo da tabela partida
+    p.codigo_partida,
+    
+    -- Contagem de gols
+    COALESCE(SUM(CASE WHEN e.tipo_marcacao = 'G' THEN 1 ELSE 0 END), 0) AS qtd_gols,
+    
+    -- Contagem de defesas
+    COALESCE(SUM(CASE WHEN e.tipo_marcacao = 'D' THEN 1 ELSE 0 END), 0) AS qtd_defesas,
+    
+    -- Contagem de faltas
+    COALESCE(SUM(CASE WHEN e.tipo_infracao = 'F' THEN 1 ELSE 0 END), 0) AS qtd_faltas,
+    
+    -- Cartões amarelos
+    COALESCE(SUM(CASE WHEN e.tipo_infracao = 'A' THEN 1 ELSE 0 END), 0) AS qtd_cartao_amarelo,
+    
+    -- Cartões vermelhos
+    COALESCE(SUM(CASE WHEN e.tipo_infracao = 'V' THEN 1 ELSE 0 END), 0) AS qtd_cartao_vermelho
+
+FROM jogador j
+JOIN usuario u ON j.codigo_usuario = u.codigo_usuario
+JOIN time t ON j.codigo_time = t.codigo_time
+
+-- Join com partidas onde o time é casa ou visitante
+LEFT JOIN partida p ON t.codigo_time = p.codigo_time_casa OR t.codigo_time = p.codigo_time_visitante
+
+LEFT JOIN estatistica e ON e.codigo_jogador = j.codigo_jogador
+
+GROUP BY t.codigo_time, j.codigo_jogador, u.nome, u.foto, j.numero_camisa, j.posicao_time, p.codigo_partida;
+
+
+
+DROP VIEW IF EXISTS vw_gols;
+
+CREATE OR REPLACE VIEW vw_gols AS
+SELECT 
+    p.codigo_partida,
+    t.codigo_time,
+    t.nome AS nome_time,
+    j.codigo_jogador,
+    u.nome AS nome_jogador,
+    e.minuto_ocorrencia,
+    e.tempo_ocorrencia,      -- P ou S, primeiro ou segundo tempo
+    e.tipo_marcacao AS ocorrencia,
+
+    -- total de gols do time nessa partida
+    COUNT(*) OVER (PARTITION BY p.codigo_partida, t.codigo_time) AS total_gols_time
+
+FROM estatistica e
+JOIN jogador j ON e.codigo_jogador = j.codigo_jogador
+JOIN usuario u ON j.codigo_usuario = u.codigo_usuario
+JOIN time t ON j.codigo_time = t.codigo_time
+JOIN partida p ON e.codigo_partida = p.codigo_partida
+WHERE e.tipo_marcacao = 'G'
+ORDER BY p.codigo_partida, t.codigo_time, e.minuto_ocorrencia;
+
+
+
+--trigger
+
+CREATE OR REPLACE FUNCTION definir_vencedor()
+RETURNS TRIGGER AS $$
+DECLARE
+    gols_casa INT;
+    gols_visitante INT;
+BEGIN
+    -- conta os gols do time da casa
+    SELECT COUNT(*) INTO gols_casa
+    FROM estatistica e
+    JOIN jogador j ON j.codigo_jogador = e.codigo_jogador
+    WHERE e.codigo_partida = NEW.codigo_partida
+      AND e.tipo_marcacao = 'G'
+      AND j.codigo_time = NEW.codigo_time_casa;
+
+    -- conta os gols do time visitante
+    SELECT COUNT(*) INTO gols_visitante
+    FROM estatistica e
+    JOIN jogador j ON j.codigo_jogador = e.codigo_jogador
+    WHERE e.codigo_partida = NEW.codigo_partida
+      AND e.tipo_marcacao = 'G'
+      AND j.codigo_time = NEW.codigo_time_visitante;
+
+    -- decide o vencedor
+    IF gols_casa > gols_visitante THEN
+        NEW.codigo_time_vencedor := NEW.codigo_time_casa;
+    ELSIF gols_visitante > gols_casa THEN
+        NEW.codigo_time_vencedor := NEW.codigo_time_visitante;
+    ELSE
+        NEW.codigo_time_vencedor := NULL; -- empate
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger: só roda no UPDATE de partida_finalizada
+CREATE TRIGGER tr_definir_vencedor
+BEFORE UPDATE OF partida_finalizada ON partida
+FOR EACH ROW
+WHEN (NEW.partida_finalizada = TRUE)
+EXECUTE FUNCTION definir_vencedor();
+
+
+DROP TRIGGER IF EXISTS trigger_controlar_infracoes ON estatistica;
+
+DROP FUNCTION IF EXISTS controlar_infracoes();
+
+
+
+CREATE OR REPLACE FUNCTION controlar_infracoes()
+RETURNS TRIGGER AS $$
+DECLARE
+    total_a INT;
+    total_v INT;
+BEGIN
+    -- Conta quantos 'A' já existem para esse jogador nessa partida
+    SELECT COUNT(*) INTO total_a
+    FROM estatistica
+    WHERE codigo_partida = NEW.codigo_partida
+      AND codigo_jogador = NEW.codigo_jogador
+      AND tipo_infracao = 'A';
+
+    -- Bloqueia se já tiver 2 ou mais 'A'
+    IF NEW.tipo_infracao = 'A' AND total_a >= 2 THEN
+        RAISE EXCEPTION 'Não pode ter mais de 2 infrações do tipo A por partida para este jogador';
+    END IF;
+
+    -- Conta quantos 'V' já existem para esse jogador nessa partida
+    SELECT COUNT(*) INTO total_v
+    FROM estatistica
+    WHERE codigo_partida = NEW.codigo_partida
+      AND codigo_jogador = NEW.codigo_jogador
+      AND tipo_infracao = 'V';
+
+    -- Bloqueia se já tiver 1 'V'
+    IF NEW.tipo_infracao = 'V' AND total_v >= 1 THEN
+        RAISE EXCEPTION 'Não pode ter mais de 1 infração do tipo V por partida para este jogador';
+    END IF;
+
+    -- Se inserir o segundo 'A', cria automaticamente 1 'V'
+    IF NEW.tipo_infracao = 'A' AND total_a = 1 THEN  -- porque o novo ainda não conta
+        -- Só insere 'V' se ainda não existir
+        IF total_v = 0 THEN
+            INSERT INTO estatistica(codigo_partida, codigo_jogador, minuto_ocorrencia, tempo_ocorrencia, tipo_infracao)
+            VALUES (NEW.codigo_partida, NEW.codigo_jogador, NEW.minuto_ocorrencia, NEW.tempo_ocorrencia, 'V');
+        END IF;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_controlar_infracoes
+BEFORE INSERT ON estatistica
+FOR EACH ROW
+EXECUTE FUNCTION controlar_infracoes();
+
+
+
